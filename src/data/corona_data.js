@@ -14,6 +14,326 @@
 export function getCoronaData() {
     return [
         {
+            date: '04.02.2021',
+            dataPoints: [
+                {
+                    name: 'Ammerbuch',
+                    cumulativeCases: 297,
+                    newCases: 7
+                },
+                {
+                    name: 'Bodelshausen',
+                    cumulativeCases: 109,
+                    newCases: 2
+                },
+                {
+                    name: 'Dettenhausen',
+                    cumulativeCases: 103,
+                    newCases: 1
+                },
+                {
+                    name: 'Dußlingen',
+                    cumulativeCases: 154,
+                    newCases: 2
+                },
+                {
+                    name: 'Gomaringen',
+                    cumulativeCases: 218,
+                    newCases: 1
+                },
+                {
+                    name: 'Hirrlingen',
+                    cumulativeCases: 90,
+                    newCases: 0
+                },
+                {
+                    name: 'Kirchentelllinsfurt',
+                    cumulativeCases: 171,
+                    newCases: 5
+                },
+                {
+                    name: 'Kusterdingen',
+                    cumulativeCases: 225,
+                    newCases: 6
+                },
+                {
+                    name: 'Mössingen',
+                    cumulativeCases: 646,
+                    newCases: 4
+                },
+                {
+                    name: 'Nehren',
+                    cumulativeCases: 82,
+                    newCases: 1
+                },
+                {
+                    name: 'Neustetten',
+                    cumulativeCases: 131,
+                    newCases: 3
+                },
+                {
+                    name: 'Ofterdingen',
+                    cumulativeCases: 155,
+                    newCases: 6
+                },
+                {
+                    name: 'Rottenburg',
+                    cumulativeCases: 1231,
+                    newCases: 18
+                },
+                {
+                    name: 'Starzach',
+                    cumulativeCases: 145,
+                    newCases: 1
+                },
+                {
+                    name: 'Tübingen',
+                    cumulativeCases: 2183,
+                    newCases: 29
+                },
+            ],
+        },
+        {
+            date: '11.02.2021',
+            dataPoints: [
+                {
+                    name: 'Ammerbuch',
+                    cumulativeCases: 298,
+                    newCases: 1
+                },
+                {
+                    name: 'Bodelshausen',
+                    cumulativeCases: 111,
+                    newCases: 2
+                },
+                {
+                    name: 'Dettenhausen',
+                    cumulativeCases: 103,
+                    newCases: 0
+                },
+                {
+                    name: 'Dußlingen',
+                    cumulativeCases: 158,
+                    newCases: 4
+                },
+                {
+                    name: 'Gomaringen',
+                    cumulativeCases: 222,
+                    newCases: 4
+                },
+                {
+                    name: 'Hirrlingen',
+                    cumulativeCases: 91,
+                    newCases: 1
+                },
+                {
+                    name: 'Kirchentelllinsfurt',
+                    cumulativeCases: 173,
+                    newCases: 2
+                },
+                {
+                    name: 'Kusterdingen',
+                    cumulativeCases: 231,
+                    newCases: 6
+                },
+                {
+                    name: 'Mössingen',
+                    cumulativeCases: 661,
+                    newCases: 5
+                },
+                {
+                    name: 'Nehren',
+                    cumulativeCases: 84,
+                    newCases: 2
+                },
+                {
+                    name: 'Neustetten',
+                    cumulativeCases: 133,
+                    newCases: 2
+                },
+                {
+                    name: 'Ofterdingen',
+                    cumulativeCases: 157,
+                    newCases: 2
+                },
+                {
+                    name: 'Rottenburg',
+                    cumulativeCases: 1241,
+                    newCases: 10
+                },
+                {
+                    name: 'Starzach',
+                    cumulativeCases: 146,
+                    newCases: 1
+                },
+                {
+                    name: 'Tübingen',
+                    cumulativeCases: 2201,
+                    newCases: 18
+                },
+            ],
+        },
+        {
+            date: '18.02.2021',
+            dataPoints: [
+                {
+                    name: 'Ammerbuch',
+                    cumulativeCases: 298,
+                    newCases: 0
+                },
+                {
+                    name: 'Bodelshausen',
+                    cumulativeCases: 115,
+                    newCases: 4
+                },
+                {
+                    name: 'Dettenhausen',
+                    cumulativeCases: 103,
+                    newCases: 0
+                },
+                {
+                    name: 'Dußlingen',
+                    cumulativeCases: 158,
+                    newCases: 0
+                },
+                {
+                    name: 'Gomaringen',
+                    cumulativeCases: 224,
+                    newCases: 2
+                },
+                {
+                    name: 'Hirrlingen',
+                    cumulativeCases: 92,
+                    newCases: 1
+                },
+                {
+                    name: 'Kirchentelllinsfurt',
+                    cumulativeCases: 177,
+                    newCases: 4
+                },
+                {
+                    name: 'Kusterdingen',
+                    cumulativeCases: 238,
+                    newCases: 7
+                },
+                {
+                    name: 'Mössingen',
+                    cumulativeCases: 665,
+                    newCases: 14
+                },
+                {
+                    name: 'Nehren',
+                    cumulativeCases: 84,
+                    newCases: 0
+                },
+                {
+                    name: 'Neustetten',
+                    cumulativeCases: 133,
+                    newCases: 0
+                },
+                {
+                    name: 'Ofterdingen',
+                    cumulativeCases: 179,
+                    newCases: 22
+                },
+                {
+                    name: 'Rottenburg',
+                    cumulativeCases: 1254,
+                    newCases: 13
+                },
+                {
+                    name: 'Starzach',
+                    cumulativeCases: 147,
+                    newCases: 1
+                },
+                {
+                    name: 'Tübingen',
+                    cumulativeCases: 2238,
+                    newCases: 37
+                },
+            ],
+        },
+        {
+            date: '25.02.2021',
+            dataPoints: [
+                {
+                    name: 'Ammerbuch',
+                    cumulativeCases: 302,
+                    newCases: 4
+                },
+                {
+                    name: 'Bodelshausen',
+                    cumulativeCases: 115,
+                    newCases: 0
+                },
+                {
+                    name: 'Dettenhausen',
+                    cumulativeCases: 103,
+                    newCases: 0
+                },
+                {
+                    name: 'Dußlingen',
+                    cumulativeCases: 158,
+                    newCases: 0
+                },
+                {
+                    name: 'Gomaringen',
+                    cumulativeCases: 229,
+                    newCases: 5
+                },
+                {
+                    name: 'Hirrlingen',
+                    cumulativeCases: 93,
+                    newCases: 1
+                },
+                {
+                    name: 'Kirchentelllinsfurt',
+                    cumulativeCases: 184,
+                    newCases: 7
+                },
+                {
+                    name: 'Kusterdingen',
+                    cumulativeCases: 241,
+                    newCases: 3
+                },
+                {
+                    name: 'Mössingen',
+                    cumulativeCases: 689,
+                    newCases: 24
+                },
+                {
+                    name: 'Nehren',
+                    cumulativeCases: 85,
+                    newCases: 1
+                },
+                {
+                    name: 'Neustetten',
+                    cumulativeCases: 135,
+                    newCases: 2
+                },
+                {
+                    name: 'Ofterdingen',
+                    cumulativeCases: 183,
+                    newCases: 4
+                },
+                {
+                    name: 'Rottenburg',
+                    cumulativeCases: 1270,
+                    newCases: 16
+                },
+                {
+                    name: 'Starzach',
+                    cumulativeCases: 149,
+                    newCases: 2
+                },
+                {
+                    name: 'Tübingen',
+                    cumulativeCases: 2257,
+                    newCases: 19
+                },
+            ],
+        },
+        {
             date: '04.03.2021',
             dataPoints: [
                 {

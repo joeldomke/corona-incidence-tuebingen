@@ -7,9 +7,10 @@
         <div>
           Filter
         </div>
-        <div class="triangleContainer">
-          <div class=triangle :class="[showFilters ? 'up': '']"></div>
-        </div>
+          <font-awesome-icon
+              v-if="showFilters"
+              class="close-filters"
+              icon="times-circle"></font-awesome-icon>
       </div>
       <div id="filter-list"
            v-if="showFilters">
@@ -18,13 +19,29 @@
             Gemeinden:
           </div>
           <div class="filter-category-content">
-            <div id="city-filters">
-              <div v-for="possibleTimeline in possibleTimelines"
-                   :key="possibleTimeline"
-                   @click="changeTimelineSelection(possibleTimeline)"
+            <div class="city-filters">
+              <div v-for="timelineName in originalTimelines"
+                   :key="timelineName"
+                   @click="changeTimelineSelection(timelineName)"
                    class="filterCheckbox"
-                   :class="[selectedTimelines.includes(possibleTimeline) ? 'selected' : '']">
-                {{ possibleTimeline }}
+                   :class="[selectedTimelines.includes(timelineName) ? 'selected' : '']">
+                {{ timelineName }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="filter-category">
+          <div class="filter-category-headline">
+            Weitere Zeitreihen:
+          </div>
+          <div class="filter-category-content">
+            <div class="city-filters">
+              <div v-for="timelineName in addedTimelines"
+                   :key="timelineName"
+                   @click="changeTimelineSelection(timelineName)"
+                   class="filterCheckbox"
+                   :class="[selectedTimelines.includes(timelineName) ? 'selected' : '']">
+                {{ timelineName }}
               </div>
             </div>
           </div>
@@ -37,6 +54,9 @@
       <li>Einwohnerzahlen: <a href="https://www.statistik-bw.de/BevoelkGebiet/Bevoelk_I_D_A_vj.csv">Statistisches Landesamt Baden‑Württemberg</a></li>
       <li>Infektionszahlen: <a href="https://www.kreis-tuebingen.de/17094149.html">Landkreis Tübingen</a></li>
     </ul>
+    <div id="footer">
+      Created by Joel Domke <a href="https://github.com/joeldomke"><font-awesome-icon :icon="['fab', 'github']" /></a>
+    </div>
   </div>
 </template>
 
@@ -58,9 +78,11 @@ export default {
       datasets: {},
       showFilters: true,
       selectedTimelines: [
-          'Tübingen',
+        'Tübingen',
+        'Landkreis Tübingen'
       ],
-      possibleTimelines: [],
+      originalTimelines: [],
+      addedTimelines: [],
       chartOptions: {
         animation: {
           duration: 0
@@ -86,29 +108,20 @@ export default {
   methods: {
     fillData: function () {
       const coronaData = getCoronaData();
-      const inhabitantData = getInhabitantData();
+      let inhabitantData = getInhabitantData();
 
-      // add new data points to snapshots and extend inhabitantData
-      const extendedCoronaData = [];
-      const extendedInhabitantData = inhabitantData;
-
-      // extend inhabitantData
-      const LKTuebingenInhabitants = 0;
-
-
-      coronaData.forEach(snapshot => {
-        // add LK Tübingen without city Tübingen to snapshot
-
-
-        // add LK Tübingen to snapshot
-
-
-        extendedCoronaData.push(snapshot);
-      })
-
-      // create timeline object
+      /**
+       * Timeline Object
+       * Stores the data for each timeline, each timeline is indexed by it's name
+       * @type {Object<string, {
+       *   newCases: Array<?number>
+       *   cumulativeCases: Array<?number>
+       * }>
+       * }
+       */
       const timelines = {}
-      extendedCoronaData.forEach((snapshot) => {
+      // add empty timeline to timelines for every timelineName
+      coronaData.forEach((snapshot) => {
         //for each datapoint check if timeline exists
         const dataPoints = snapshot.dataPoints;
         dataPoints.forEach((dataPoint) => {
@@ -122,35 +135,81 @@ export default {
       });
 
       // write data from snapshots into the timeline
-      const timelineNames = Object.keys(timelines);
+      this.originalTimelines = Object.keys(timelines);
 
-      this.possibleTimelines = timelineNames;
-
-      extendedCoronaData.forEach((snapshot) => {
+      coronaData.forEach((snapshot) => {
         // for each key in timeline check if snapshot has relevant data
-        timelineNames.forEach((key) => {
+        this.originalTimelines.forEach((key) => {
           // lookup datapoint with the same name as the key
           const dataPoints = snapshot.dataPoints.filter(dataPoint => dataPoint.name === key);
           if (dataPoints.length > 0) {
+            // if the datapoint exists add data to timeline
             timelines[key].newCases.push(dataPoints[0].newCases);
             timelines[key].cumulativeCases.push(dataPoints[0].cumulativeCases);
           } else {
+            // otherwise add null to timeline
             timelines[key].newCases.push(null);
             timelines[key].cumulativeCases.push(null);
           }
         });
       });
 
+      // register new timelines
+      this.addedTimelines = [
+        'Landkreis Tübingen',
+        'LK Tübingen ohne Gemeinde Tübingen'
+      ]
+
+      // add lk tübingen without tübingen
+      const timelinesToAccumulate = [
+        'Ammerbuch',
+        'Bodelshausen',
+        'Dettenhausen',
+        'Dußlingen',
+        'Gomaringen',
+        'Hirrlingen',
+        'Kirchentelllinsfurt',
+        'Kusterdingen',
+        'Mössingen',
+        'Nehren',
+        'Neustetten',
+        'Ofterdingen',
+        'Rottenburg',
+        'Starzach',
+      ]
+      this.accumulateTimelines(
+          'LK Tübingen ohne Gemeinde Tübingen',
+          timelinesToAccumulate,
+          timelines,
+          inhabitantData
+      )
+      const timelinesToAccumulate2 = [
+        'LK Tübingen ohne Gemeinde Tübingen',
+        'Tübingen'
+      ]
+      this.accumulateTimelines(
+          'Landkreis Tübingen',
+          timelinesToAccumulate2,
+          timelines,
+          inhabitantData
+      )
+
+      console.log(timelines);
+
+
       // create chart labels
       const chartLabels = [];
-      extendedCoronaData.forEach(snapshot => {
+      coronaData.forEach(snapshot => {
         chartLabels.push(snapshot.date);
       })
 
       // convert timeline into dataset
       this.datasets = [];
-      timelineNames.forEach(timelineName => {
-        const inhabitants = extendedInhabitantData[timelineName].inhabitants;
+      const combinedTimeLineNames = [...this.originalTimelines, ...this.addedTimelines];
+      console.log(combinedTimeLineNames);
+      combinedTimeLineNames.forEach(timelineName => {
+        console.log(timelineName);
+        const inhabitants = inhabitantData[timelineName].inhabitants;
         const randomColor = this.randomColor();
         this.datasets.push({
           label: timelineName,
@@ -170,6 +229,23 @@ export default {
         datasets: this.datasets,
       }
 
+    },
+    accumulateTimelines(newTimelineName, timelinesToAccumulate, timelines, inhabitantData) {
+      let inhabitants = 0;
+      const newCasesToAdd = [];
+      const cumulativeCasesToAdd = [];
+      timelinesToAccumulate.forEach(cityName => {
+        newCasesToAdd.push(timelines[cityName].newCases);
+        cumulativeCasesToAdd.push(timelines[cityName].cumulativeCases);
+        inhabitants += inhabitantData[cityName].inhabitants;
+      })
+      const newCases = this.sumArrays(newCasesToAdd);
+      const cumulativeCases = this.sumArrays(cumulativeCasesToAdd);
+      timelines[newTimelineName] = {
+        newCases: newCases,
+        cumulativeCases: cumulativeCases
+      };
+      inhabitantData[newTimelineName] = {inhabitants: inhabitants};
     },
     randomColor() {
       return '#'+(Math.random()*0xFFFFFF<<0).toString(16);
@@ -195,7 +271,8 @@ export default {
     sumArrays(arrays) {
       const n = arrays.reduce((max, xs) => Math.max(max, xs.length), 0);
       const result = Array.from({ length: n });
-      return result.map((_, i) => arrays.map(xs => xs[i] || 0).reduce((sum, x) => sum + x, 0));
+      return result.map((_, i) => arrays.map(xs => xs[i]).reduce((sum, x) =>
+          sum === null || x === null ? null : sum + x, 0));
     }
   }
 };
@@ -239,7 +316,7 @@ export default {
 .filter-category-content {
 
 }
-#city-filters {
+.city-filters {
   display: flex;
   flex-wrap: wrap;
 }
@@ -259,6 +336,9 @@ export default {
   background-color: black;
   color: white;
 }
+.close-filters {
+  margin-left: auto;
+}
 ul {
   list-style-type: none;
   padding: 0;
@@ -270,16 +350,7 @@ h4 {
 a {
   color: #42b983;
 }
-.triangle {
-  display: inline-block;
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 10px solid black;
-  transition: .5s ease;
-}
-.triangle.up {
-  transform:rotate(180deg);
+#footer {
+  margin-top: 3rem;
 }
 </style>

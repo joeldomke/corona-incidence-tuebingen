@@ -1,6 +1,6 @@
 <template>
   <div id="home">
-    <h1>Corona 7 Tage Inzidenz Tübingen</h1>
+    <h1>Landkreis Tübingen 7 Tage Corona Inzidenz</h1>
     <div id="filter-container">
       <div id="filter-header"
            @click="showFilters = !showFilters">
@@ -52,7 +52,7 @@
     <h4>Quellen:</h4>
     <ul>
       <li>Einwohnerzahlen: <a href="https://www.statistik-bw.de/BevoelkGebiet/Bevoelk_I_D_A_vj.csv">Statistisches Landesamt Baden‑Württemberg</a></li>
-      <li>Infektionszahlen: <a href="https://www.kreis-tuebingen.de/17094149.html">Landkreis Tübingen</a></li>
+      <li>Infektionszahlen: <a href="https://www.kreis-tuebingen.de/17094149.html">Landratsamt Tübingen</a></li>
     </ul>
     <div id="footer">
       Created by Joel Domke <a href="https://github.com/joeldomke"><font-awesome-icon :icon="['fab', 'github']" /></a>
@@ -65,6 +65,7 @@ import LineChart from '../components/LineChart'
 import { getCoronaData } from "@/data/corona_data";
 import { getInhabitantData } from "@/data/inhabitant_data";
 import MenuIcon from 'vue-material-design-icons/Menu.vue';
+import 'chartjs-plugin-colorschemes';
 
 export default {
   name: 'Home',
@@ -84,6 +85,11 @@ export default {
       originalTimelines: [],
       addedTimelines: [],
       chartOptions: {
+        plugins: {
+          colorschemes: {
+            scheme: 'brewer.SetOne9',
+          }
+        },
         animation: {
           duration: 0
         },
@@ -219,8 +225,8 @@ export default {
           fill: false,
           spanGaps: true,
           pointRadius: 4,
-          borderColor: randomColor,
-          backgroundColor: randomColor
+          //borderColor: randomColor,
+          //backgroundColor: randomColor
         });
       });
 
@@ -281,7 +287,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .chart {
-  max-height: 500px;
+  max-height: 800px;
   margin-bottom: 3rem;
 }
 #home {

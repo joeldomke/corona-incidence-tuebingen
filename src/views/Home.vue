@@ -14,34 +14,19 @@
       </div>
       <div id="filter-list"
            v-if="showFilters">
-        <div class="filter-category">
+        <div v-for="timelineType in TimelineTypes"
+             class="filter-category">
           <div class="filter-category-headline">
-            Gemeinden:
+            {{ timelineType }}:
           </div>
           <div class="filter-category-content">
             <div class="city-filters">
-              <div v-for="timelineName in originalTimelines"
-                   :key="timelineName"
-                   @click="changeTimelineSelection(timelineName)"
+              <div v-for="cityName in cityNamesByTimelineCategory(timelineType)"
+                   :key="cityName"
+                   @click="changeTimelineSelection(cityName)"
                    class="filterCheckbox"
-                   :class="[selectedTimelines.includes(timelineName) ? 'selected' : '']">
-                {{ timelineName }}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="filter-category">
-          <div class="filter-category-headline">
-            Weitere Zeitreihen:
-          </div>
-          <div class="filter-category-content">
-            <div class="city-filters">
-              <div v-for="timelineName in addedTimelines"
-                   :key="timelineName"
-                   @click="changeTimelineSelection(timelineName)"
-                   class="filterCheckbox"
-                   :class="[selectedTimelines.includes(timelineName) ? 'selected' : '']">
-                {{ timelineName }}
+                   :class="[selectedTimelines.includes(cityName) ? 'selected' : '']">
+                {{ cityName }}
               </div>
             </div>
           </div>
@@ -52,7 +37,8 @@
     <h4>Quellen:</h4>
     <ul>
       <li>Einwohnerzahlen: <a href="https://www.statistik-bw.de/BevoelkGebiet/Bevoelk_I_D_A_vj.csv">Statistisches Landesamt Baden‑Württemberg</a></li>
-      <li>Infektionszahlen: <a href="https://www.kreis-tuebingen.de/17094149.html">Landratsamt Tübingen</a></li>
+      <li>Infektionszahlen Gemeinden: <a href="https://www.kreis-tuebingen.de/17094149.html">Landratsamt Tübingen</a></li>
+      <li>Infektionszahlen Landkreise: <a href="https://www.baden-wuerttemberg.de/de/service/presse/pressemitteilung/pid/infektionen-und-todesfaelle-in-baden-wuerttemberg/">Landesgesundheitsamt Baden-Württemberg</a></li>
     </ul>
     <div id="footer">
       Created by Joel Domke <a href="https://github.com/joeldomke"><font-awesome-icon :icon="['fab', 'github']" /></a>
@@ -63,7 +49,7 @@
 <script>
 import LineChart from '../components/LineChart'
 import { getCoronaData } from "@/data/corona_data";
-import { getInhabitantData } from "@/data/inhabitant_data";
+import { getTimelineData, TimelineCategories } from "@/data/timeline_data";
 import MenuIcon from 'vue-material-design-icons/Menu.vue';
 import 'chartjs-plugin-colorschemes';
 
@@ -75,6 +61,7 @@ export default {
   },
   data () {
     return {
+      TimelineTypes: TimelineCategories,
       chartData: {},
       datasets: {},
       showFilters: true,
@@ -82,8 +69,7 @@ export default {
         'Tübingen',
         'Landkreis Tübingen'
       ],
-      originalTimelines: [],
-      addedTimelines: [],
+      timelineData: {},
       chartOptions: {
         plugins: {
           colorschemes: {
@@ -102,6 +88,16 @@ export default {
             ticks: {
               min: 0
             }
+          }],
+          xAxes: [{
+            type: 'time',
+            time: {
+              unit: 'week',
+              parser: 'DD.MM.YYYY'
+            },
+            ticks: {
+              min: '2021',
+            }
           }]
         }
       }
@@ -112,15 +108,18 @@ export default {
     this.filterDatasets();
   },
   methods: {
-    fillData: function () {
+    /**
+     * Takes the raw incidence date and creates timelines for the chart
+     */
+    fillData() {
       const coronaData = getCoronaData();
-      let inhabitantData = getInhabitantData();
+      let timelineData = getTimelineData();
 
       /**
        * Timeline Object
        * Stores the data for each timeline, each timeline is indexed by it's name
        * @type {Object<string, {
-       *   newCases: Array<?number>
+       *   newCasesLast7Days: Array<?number>
        *   cumulativeCases: Array<?number>
        * }>
        * }
@@ -133,7 +132,7 @@ export default {
         dataPoints.forEach((dataPoint) => {
           if (!timelines[dataPoint.name]) {
             timelines[dataPoint.name] = {
-              newCases: [],
+              newCasesLast7Days: [],
               cumulativeCases: [],
             };
           }
@@ -150,21 +149,15 @@ export default {
           const dataPoints = snapshot.dataPoints.filter(dataPoint => dataPoint.name === key);
           if (dataPoints.length > 0) {
             // if the datapoint exists add data to timeline
-            timelines[key].newCases.push(dataPoints[0].newCases);
+            timelines[key].newCasesLast7Days.push(dataPoints[0].newCasesLast7Days);
             timelines[key].cumulativeCases.push(dataPoints[0].cumulativeCases);
           } else {
             // otherwise add null to timeline
-            timelines[key].newCases.push(null);
+            timelines[key].newCasesLast7Days.push(null);
             timelines[key].cumulativeCases.push(null);
           }
         });
       });
-
-      // register new timelines
-      this.addedTimelines = [
-        'Landkreis Tübingen',
-        'LK Tübingen ohne Gemeinde Tübingen'
-      ]
 
       // add lk tübingen without tübingen
       const timelinesToAccumulate = [
@@ -183,25 +176,14 @@ export default {
         'Rottenburg',
         'Starzach',
       ]
-      this.accumulateTimelines(
-          'LK Tübingen ohne Gemeinde Tübingen',
-          timelinesToAccumulate,
-          timelines,
-          inhabitantData
-      )
-      const timelinesToAccumulate2 = [
-        'LK Tübingen ohne Gemeinde Tübingen',
-        'Tübingen'
-      ]
-      this.accumulateTimelines(
-          'Landkreis Tübingen',
-          timelinesToAccumulate2,
-          timelines,
-          inhabitantData
-      )
+      // this.addTimelines(
+      //     'LK Tübingen ohne Gemeinde Tübingen',
+      //     timelinesToAccumulate,
+      //     timelines,
+      //     timelineData
+      // );
 
-      console.log(timelines);
-
+      this.timelineData = timelineData;
 
       // create chart labels
       const chartLabels = [];
@@ -211,22 +193,17 @@ export default {
 
       // convert timeline into dataset
       this.datasets = [];
-      const combinedTimeLineNames = [...this.originalTimelines, ...this.addedTimelines];
-      console.log(combinedTimeLineNames);
+      const combinedTimeLineNames = Object.keys(this.timelineData);
       combinedTimeLineNames.forEach(timelineName => {
-        console.log(timelineName);
-        const inhabitants = inhabitantData[timelineName].inhabitants;
-        const randomColor = this.randomColor();
+        const inhabitants = timelineData[timelineName].inhabitants;
         this.datasets.push({
           label: timelineName,
-          data: timelines[timelineName].newCases
+          data: timelines[timelineName].newCasesLast7Days
               .map(datapoint => datapoint !== null ? this.round(datapoint / inhabitants * 100000) : null),
           lineTension: 0,
           fill: false,
           spanGaps: true,
           pointRadius: 4,
-          //borderColor: randomColor,
-          //backgroundColor: randomColor
         });
       });
 
@@ -236,26 +213,36 @@ export default {
       }
 
     },
-    accumulateTimelines(newTimelineName, timelinesToAccumulate, timelines, inhabitantData) {
+    /**
+     * Takes multiple timelines and adds them together to create a new timeline
+     * @param newTimelineName
+     * @param timelinesToAccumulate
+     * @param timelines
+     * @param inhabitantData
+     * @param timelineCategory
+     * @returns {string[]}
+     */
+    addTimelines(newTimelineName, timelinesToAccumulate, timelines, inhabitantData, timelineCategory = TimelineCategories.additionalTimeline) {
       let inhabitants = 0;
-      const newCasesToAdd = [];
+      const newCasesLast7DaysToAdd = [];
       const cumulativeCasesToAdd = [];
       timelinesToAccumulate.forEach(cityName => {
-        newCasesToAdd.push(timelines[cityName].newCases);
+        newCasesLast7DaysToAdd.push(timelines[cityName].newCasesLast7Days);
         cumulativeCasesToAdd.push(timelines[cityName].cumulativeCases);
         inhabitants += inhabitantData[cityName].inhabitants;
-      })
-      const newCases = this.sumArrays(newCasesToAdd);
+      });
+      const newCasesLast7Days = this.sumArrays(newCasesLast7DaysToAdd);
       const cumulativeCases = this.sumArrays(cumulativeCasesToAdd);
       timelines[newTimelineName] = {
-        newCases: newCases,
+        newCasesLast7Days: newCasesLast7Days,
         cumulativeCases: cumulativeCases
       };
-      inhabitantData[newTimelineName] = {inhabitants: inhabitants};
+      inhabitantData[newTimelineName] = {inhabitants: inhabitants, category: timelineCategory};
     },
-    randomColor() {
-      return '#'+(Math.random()*0xFFFFFF<<0).toString(16);
-    },
+    /**
+     * Activate or deactivate a timeline
+     * @param {string} timelineName
+     */
     changeTimelineSelection(timelineName) {
       if (this.selectedTimelines.includes(timelineName)) {
         this.selectedTimelines = this.selectedTimelines.filter(name => name !== timelineName);
@@ -269,7 +256,15 @@ export default {
         labels: this.chartData.labels,
         datasets: this.datasets.filter(dataset => this.selectedTimelines.includes(dataset.label))
       }
-      console.log(this.chartData);
+    },
+    /**
+     * Returns all city names for a give timeline type
+     * @param timelineCategory
+     * @returns {string[]}
+     */
+    cityNamesByTimelineCategory(timelineCategory) {
+      const allCityNames = Object.keys(this.timelineData);
+      return allCityNames.filter(cityName => this.timelineData[cityName].category === timelineCategory)
     },
     round(num, digits = 1) {
       return Math.round(num * Math.pow(10, digits)) / Math.pow(10, digits)
@@ -279,7 +274,7 @@ export default {
       const result = Array.from({ length: n });
       return result.map((_, i) => arrays.map(xs => xs[i]).reduce((sum, x) =>
           sum === null || x === null ? null : sum + x, 0));
-    }
+    },
   }
 };
 </script>
@@ -287,7 +282,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .chart {
-  max-height: 800px;
+  height: 50rem;
+  max-height: 100vw;
   margin-bottom: 3rem;
 }
 #home {

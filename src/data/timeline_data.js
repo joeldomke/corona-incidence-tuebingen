@@ -69,6 +69,10 @@ export function getTimelineData () {
         'Landkreis Tübingen': {
             inhabitants: 227426,
             category: TimelineCategories.district
+        },
+        'Landkreis Reutlingen': {
+            inhabitants: 287445,
+            category: TimelineCategories.district
         }
     };
 }

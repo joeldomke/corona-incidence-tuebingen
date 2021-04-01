@@ -52,6 +52,7 @@ import { getCoronaData } from "@/data/corona_data";
 import { getTimelineData, TimelineCategories } from "@/data/timeline_data";
 import MenuIcon from 'vue-material-design-icons/Menu.vue';
 import 'chartjs-plugin-colorschemes';
+import axios from 'axios';
 
 export default {
   name: 'Home',
@@ -104,10 +105,14 @@ export default {
     }
   },
   mounted () {
+    this.logUser();
     this.fillData();
     this.filterDatasets();
   },
   methods: {
+    logUser() {
+      axios.get("/.netlify/functions/countUser");
+    },
     /**
      * Takes the raw incidence date and creates timelines for the chart
      */

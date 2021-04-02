@@ -793,5 +793,115 @@ export function getCoronaData() {
                 },
             ]
         },
+        {
+            date: '30.03.2021',
+            dataPoints: [
+                {
+                    name: 'Landkreis Tübingen',
+                    cumulativeCases: 6762,
+                    newCasesLast7Days: 252
+                },
+                {
+                    name: 'Landkreis Reutlingen',
+                    cumulativeCases: 10142,
+                    newCasesLast7Days: 345
+                },
+            ]
+        },
+        {
+            date: '31.03.2021',
+            dataPoints: [
+                {
+                    name: 'Landkreis Tübingen',
+                    cumulativeCases: 6812,
+                    newCasesLast7Days: 282
+                },
+                {
+                    name: 'Landkreis Reutlingen',
+                    cumulativeCases: 10213,
+                    newCasesLast7Days: 355
+                },
+            ]
+        },
+        {
+            date: '01.04.2021',
+            dataPoints: [
+                {
+                    name: 'Ammerbuch',
+                    cumulativeCases: 344,
+                    newCasesLast7Days: 16
+                },
+                {
+                    name: 'Bodelshausen',
+                    cumulativeCases: 135,
+                    newCasesLast7Days: 4
+                },
+                {
+                    name: 'Dettenhausen',
+                    cumulativeCases: 107,
+                    newCasesLast7Days: 2
+                },
+                {
+                    name: 'Dußlingen',
+                    cumulativeCases: 187,
+                    newCasesLast7Days: 9
+                },
+                {
+                    name: 'Gomaringen',
+                    cumulativeCases: 243,
+                    newCasesLast7Days: 2
+                },
+                {
+                    name: 'Hirrlingen',
+                    cumulativeCases: 97,
+                    newCasesLast7Days: 1
+                },
+                {
+                    name: 'Kirchentelllinsfurt',
+                    cumulativeCases: 197,
+                    newCasesLast7Days: 7
+                },
+                {
+                    name: 'Kusterdingen',
+                    cumulativeCases: 258,
+                    newCasesLast7Days: 4
+                },
+                {
+                    name: 'Mössingen',
+                    cumulativeCases: 767,
+                    newCasesLast7Days: 39
+                },
+                {
+                    name: 'Nehren',
+                    cumulativeCases: 97,
+                    newCasesLast7Days: 1
+                },
+                {
+                    name: 'Neustetten',
+                    cumulativeCases: 154,
+                    newCasesLast7Days: 8
+                },
+                {
+                    name: 'Ofterdingen',
+                    cumulativeCases: 204,
+                    newCasesLast7Days: 9
+                },
+                {
+                    name: 'Rottenburg',
+                    cumulativeCases: 1533,
+                    newCasesLast7Days: 100
+                },
+                {
+                    name: 'Starzach',
+                    cumulativeCases: 176,
+                    newCasesLast7Days: 7
+                },
+                {
+                    name: 'Tübingen',
+                    cumulativeCases: 2466,
+                    newCasesLast7Days: 105
+                },
+            ]
+        },
     ]
 }

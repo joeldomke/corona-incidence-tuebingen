@@ -6,10 +6,16 @@ const client = new faunadb.Client({
 })
 
 exports.handler = async (event, context) => {
-    console.log('visitor');
-    await client.query(q.Call('incrementCounter'))
-    return {
-        statusCode: 200,
-        body: JSON.stringify({message: "Incremented visitor count"})
-    };
+    if (!process.env.NETLIFY_DEV) {
+        await client.query(q.Call('incrementCounter'))
+        return {
+            statusCode: 200,
+            body: JSON.stringify({message: "Incremented visitor count"})
+        };
+    } else {
+        return {
+            statusCode: 200,
+            body: JSON.stringify({message: "Dev mode: did not increment visitor count"})
+        };
+    }
 }

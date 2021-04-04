@@ -1,15 +1,19 @@
 /**
+ * @typedef {Object} DataPoint
+ * @property {string} name
+ * @property {number} cumulativeCases
+ * @property {number} newCasesLast7Days
+ */
+
+/**
+ * @typedef {Object} Snapshot
+ * @property {string} date
+ * @property {DataPoint[]} dataPoints
+ */
+
+/**
  *
- * @returns {
- *     {
- *         date: String,
- *         dataPoints: {
- *             name: String,
- *             cumulativeCases: number,
- *             newCasesLast7Days: number
- *         }[]
- *     }[]
- * }
+ * @returns {Snapshot[]}
  */
 export function getCoronaData() {
     return [
@@ -900,6 +904,31 @@ export function getCoronaData() {
                     name: 'Tübingen',
                     cumulativeCases: 2466,
                     newCasesLast7Days: 105
+                },
+                {
+                    name: 'Landkreis Tübingen',
+                    cumulativeCases: 6874,
+                    newCasesLast7Days: 301
+                },
+                {
+                    name: 'Landkreis Reutlingen',
+                    cumulativeCases: 10297,
+                    newCasesLast7Days: 381
+                },
+            ]
+        },
+        {
+            date: '02.04.2021',
+            dataPoints: [
+                {
+                    name: 'Landkreis Tübingen',
+                    cumulativeCases: 6932,
+                    newCasesLast7Days: 311
+                },
+                {
+                    name: 'Landkreis Reutlingen',
+                    cumulativeCases: 10402,
+                    newCasesLast7Days: 398
                 },
             ]
         },

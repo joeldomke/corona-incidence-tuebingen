@@ -75,6 +75,7 @@ import {getTimelineData, TimelineCategories} from "@/data/timeline_data";
 import MenuIcon from 'vue-material-design-icons/Menu.vue';
 import 'chartjs-plugin-colorschemes';
 import axios from 'axios';
+import Vue from "vue";
 
 export default {
   name: 'Home',
@@ -118,9 +119,6 @@ export default {
 
       timelineData: {},
       chartOptions: {
-        title: {
-          display: true,
-        },
         plugins: {
           colorschemes: {
             scheme: 'brewer.SetOne9',
@@ -164,9 +162,6 @@ export default {
         return timeline.displayName === this.selectedTimelineTypeName;
       })[0];
     },
-    chartTitle() {
-      return this.selectedTimelineType.displayName;
-    }
   },
   methods: {
     logUser() {
@@ -276,7 +271,6 @@ export default {
         datasets: this.datasets,
       }
 
-      this.chartOptions.title.text = this.selectedTimelineType.displayName;
 
     },
     /**

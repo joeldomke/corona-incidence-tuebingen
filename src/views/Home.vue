@@ -7,14 +7,30 @@
         <div>
           Filter
         </div>
-          <font-awesome-icon
-              v-if="showFilters"
-              class="close-filters"
-              icon="times-circle"></font-awesome-icon>
+        <font-awesome-icon
+            v-if="showFilters"
+            class="close-filters"
+            icon="times-circle"></font-awesome-icon>
       </div>
       <div id="filter-list"
            v-if="showFilters">
-        <div v-for="timelineType in TimelineTypes"
+        <div class="filter-category">
+          <div class="filter-category-headline">
+            Typ:
+          </div>
+          <div class="filter-category-content">
+            <div class="city-filters">
+              <div v-for="timelineType in timelineTypes"
+                   :key="timelineType.displayName"
+                   @click="changeTimelineType(timelineType.displayName)"
+                   class="filterCheckbox"
+                   :class="[selectedTimelineType.displayName === timelineType.displayName ? 'selected' : '']">
+                {{ timelineType.displayName }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div v-for="timelineType in TimelineCategories"
              class="filter-category">
           <div class="filter-category-headline">
             {{ timelineType }}:
@@ -36,20 +52,26 @@
     <line-chart class="chart" :chart-data="chartData" :options="chartOptions"></line-chart>
     <h4>Quellen:</h4>
     <ul>
-      <li>Einwohnerzahlen: <a href="https://www.statistik-bw.de/BevoelkGebiet/Bevoelk_I_D_A_vj.csv">Statistisches Landesamt Baden‑Württemberg</a></li>
-      <li>Infektionszahlen Gemeinden: <a href="https://www.kreis-tuebingen.de/17094149.html">Landratsamt Tübingen</a></li>
-      <li>Infektionszahlen Landkreise: <a href="https://www.baden-wuerttemberg.de/de/service/presse/pressemitteilung/pid/infektionen-und-todesfaelle-in-baden-wuerttemberg/">Landesgesundheitsamt Baden-Württemberg</a></li>
+      <li>Einwohnerzahlen: <a href="https://www.statistik-bw.de/BevoelkGebiet/Bevoelk_I_D_A_vj.csv">Statistisches
+        Landesamt Baden‑Württemberg</a></li>
+      <li>Infektionszahlen Gemeinden: <a href="https://www.kreis-tuebingen.de/17094149.html">Landratsamt Tübingen</a>
+      </li>
+      <li>Infektionszahlen Landkreise: <a
+          href="https://www.baden-wuerttemberg.de/de/service/presse/pressemitteilung/pid/infektionen-und-todesfaelle-in-baden-wuerttemberg/">Landesgesundheitsamt
+        Baden-Württemberg</a></li>
     </ul>
     <div id="footer">
-      Created by Joel Domke <a href="https://github.com/joeldomke"><font-awesome-icon :icon="['fab', 'github']" /></a>
+      Created by Joel Domke <a href="https://github.com/joeldomke">
+      <font-awesome-icon :icon="['fab', 'github']"/>
+    </a>
     </div>
   </div>
 </template>
 
 <script>
 import LineChart from '../components/LineChart'
-import { getCoronaData } from "@/data/corona_data";
-import { getTimelineData, TimelineCategories } from "@/data/timeline_data";
+import {getCoronaData} from "@/data/corona_data";
+import {getTimelineData, TimelineCategories} from "@/data/timeline_data";
 import MenuIcon from 'vue-material-design-icons/Menu.vue';
 import 'chartjs-plugin-colorschemes';
 import axios from 'axios';
@@ -60,18 +82,45 @@ export default {
     MenuIcon,
     LineChart
   },
-  data () {
+  data() {
     return {
-      TimelineTypes: TimelineCategories,
+      TimelineCategories: TimelineCategories,
+      timelineTypes: [
+        {
+          displayName: '7-Tage-Inzidenz',
+          function: (timeline, inhabitants) => {
+            return timeline.newCasesLast7Days.map(datapoint => {
+              return datapoint !== null ? this.round(datapoint / inhabitants * 100000) : null;
+            });
+          }
+        },
+        {
+          displayName: 'Fälle in den letzten 7 Tagen',
+          function: (timeline, inhabitants) => {
+            return timeline.newCasesLast7Days;
+          }
+        },
+        {
+          displayName: 'Fallzahlen kumuliert',
+          function: (timeline, inhabitants) => {
+            return timeline.cumulativeCases;
+          }
+        },
+      ],
       chartData: {},
       datasets: {},
       showFilters: true,
+      selectedTimelineTypeName: '7-Tage-Inzidenz',
       selectedTimelines: [
         'Tübingen',
         'Landkreis Tübingen'
       ],
+
       timelineData: {},
       chartOptions: {
+        title: {
+          display: true,
+        },
         plugins: {
           colorschemes: {
             scheme: 'brewer.SetOne9',
@@ -104,10 +153,20 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
     this.logUser();
     this.fillData();
     this.filterDatasets();
+  },
+  computed: {
+    selectedTimelineType() {
+      return this.timelineTypes.filter(timeline => {
+        return timeline.displayName === this.selectedTimelineTypeName;
+      })[0];
+    },
+    chartTitle() {
+      return this.selectedTimelineType.displayName;
+    }
   },
   methods: {
     logUser() {
@@ -165,27 +224,27 @@ export default {
       });
 
       // add lk tübingen without tübingen
-      const timelinesToAccumulate = [
-        'Ammerbuch',
-        'Bodelshausen',
-        'Dettenhausen',
-        'Dußlingen',
-        'Gomaringen',
-        'Hirrlingen',
-        'Kirchentelllinsfurt',
-        'Kusterdingen',
-        'Mössingen',
-        'Nehren',
-        'Neustetten',
-        'Ofterdingen',
-        'Rottenburg',
-        'Starzach',
-      ]
+      // const timelinesToAccumulate = [
+      //   'Ammerbuch',
+      //   'Bodelshausen',
+      //   'Dettenhausen',
+      //   'Dußlingen',
+      //   'Gomaringen',
+      //   'Hirrlingen',
+      //   'Kirchentelllinsfurt',
+      //   'Kusterdingen',
+      //   'Mössingen',
+      //   'Nehren',
+      //   'Neustetten',
+      //   'Ofterdingen',
+      //   'Rottenburg',
+      //   'Starzach',
+      // ]
       // this.addTimelines(
       //     'LK Tübingen ohne Gemeinde Tübingen',
       //     timelinesToAccumulate,
       //     timelines,
-      //     timelineData
+      //     timelineData,
       // );
 
       this.timelineData = timelineData;
@@ -201,10 +260,10 @@ export default {
       const combinedTimeLineNames = Object.keys(this.timelineData);
       combinedTimeLineNames.forEach(timelineName => {
         const inhabitants = timelineData[timelineName].inhabitants;
+        const timeline = timelines[timelineName];
         this.datasets.push({
           label: timelineName,
-          data: timelines[timelineName].newCasesLast7Days
-              .map(datapoint => datapoint !== null ? this.round(datapoint / inhabitants * 100000) : null),
+          data: this.selectedTimelineType.function(timeline, inhabitants),
           lineTension: 0,
           fill: false,
           spanGaps: true,
@@ -217,15 +276,16 @@ export default {
         datasets: this.datasets,
       }
 
+      this.chartOptions.title.text = this.selectedTimelineType.displayName;
+
     },
     /**
      * Takes multiple timelines and adds them together to create a new timeline
-     * @param newTimelineName
-     * @param timelinesToAccumulate
-     * @param timelines
+     * @param {string} newTimelineName
+     * @param {string[]} timelinesToAccumulate - Names of the timelines to add up
+     * @param timelines - Existing timelines
      * @param inhabitantData
-     * @param timelineCategory
-     * @returns {string[]}
+     * @param timelineCategory - Timeline category of the new timeline
      */
     addTimelines(newTimelineName, timelinesToAccumulate, timelines, inhabitantData, timelineCategory = TimelineCategories.additionalTimeline) {
       let inhabitants = 0;
@@ -256,6 +316,14 @@ export default {
       }
       this.filterDatasets();
     },
+    changeTimelineType(timelineTypeName) {
+      this.selectedTimelineTypeName = timelineTypeName;
+      this.fillData();
+      this.filterDatasets();
+    },
+    /**
+     * Filter out the timelines that are not selected
+     */
     filterDatasets() {
       this.chartData = {
         labels: this.chartData.labels,
@@ -276,7 +344,7 @@ export default {
     },
     sumArrays(arrays) {
       const n = arrays.reduce((max, xs) => Math.max(max, xs.length), 0);
-      const result = Array.from({ length: n });
+      const result = Array.from({length: n});
       return result.map((_, i) => arrays.map(xs => xs[i]).reduce((sum, x) =>
           sum === null || x === null ? null : sum + x, 0));
     },
@@ -291,46 +359,59 @@ export default {
   max-height: 100vw;
   margin-bottom: 3rem;
 }
+
 #home {
   padding: 1rem;
 }
+
 #filter-container {
   border-radius: 0.25rem;
   overflow: hidden;
   padding: 0 1rem;
+
   .icon {
     width: 1em;
   }
+
   margin-bottom: 1rem;
   background-color: darkgray;
 }
+
 #filter-header {
   display: flex;
   padding: 1rem 0;
   font-weight: bold;
+
   .triangleContainer {
     margin-left: auto;
   }
 }
+
 #filter-list {
 }
+
 .filter-category {
   margin-bottom: 1rem;
 }
+
 .filter-category-headline {
   font-weight: bold;
 }
+
 .filter-category-content {
 
 }
+
 .city-filters {
   display: flex;
   flex-wrap: wrap;
 }
+
 #time-filter {
   min-height: 3rem;
   background-color: lightgray;
 }
+
 .filterCheckbox {
   background-color: white;
   border-radius: 100px;
@@ -339,24 +420,30 @@ export default {
   width: auto;
   cursor: default;
 }
+
 .filterCheckbox.selected {
   background-color: black;
   color: white;
 }
+
 .close-filters {
   margin-left: auto;
 }
+
 ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
+
 h4 {
   margin: 0.25rem 0;
 }
+
 a {
   color: #42b983;
 }
+
 #footer {
   margin-top: 3rem;
 }

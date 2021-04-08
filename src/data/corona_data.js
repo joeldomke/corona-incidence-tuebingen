@@ -977,5 +977,35 @@ export function getCoronaData() {
                 },
             ]
         },
+        {
+            date: '06.04.2021',
+            dataPoints: [
+                {
+                    name: 'Landkreis Tübingen',
+                    cumulativeCases: 7009,
+                    newCasesLast7Days: 227
+                },
+                {
+                    name: 'Landkreis Reutlingen',
+                    cumulativeCases: 10490,
+                    newCasesLast7Days: 308
+                },
+            ]
+        },
+        {
+            date: '07.04.2021',
+            dataPoints: [
+                {
+                    name: 'Landkreis Tübingen',
+                    cumulativeCases: 7066,
+                    newCasesLast7Days: 236
+                },
+                {
+                    name: 'Landkreis Reutlingen',
+                    cumulativeCases: 10580,
+                    newCasesLast7Days: 342
+                },
+            ]
+        },
     ]
 }

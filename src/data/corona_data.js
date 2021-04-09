@@ -1007,5 +1007,85 @@ export function getCoronaData() {
                 },
             ]
         },
+        {
+            date: '08.04.2021',
+            dataPoints: [
+                {
+                    name: 'Ammerbuch',
+                    cumulativeCases: 353,
+                    newCasesLast7Days: 9
+                },
+                {
+                    name: 'Bodelshausen',
+                    cumulativeCases: 143,
+                    newCasesLast7Days: 8
+                },
+                {
+                    name: 'Dettenhausen',
+                    cumulativeCases: 113,
+                    newCasesLast7Days: 6
+                },
+                {
+                    name: 'Dußlingen',
+                    cumulativeCases: 187,
+                    newCasesLast7Days: 0
+                },
+                {
+                    name: 'Gomaringen',
+                    cumulativeCases: 253,
+                    newCasesLast7Days: 10
+                },
+                {
+                    name: 'Hirrlingen',
+                    cumulativeCases: 100,
+                    newCasesLast7Days: 3
+                },
+                {
+                    name: 'Kirchentelllinsfurt',
+                    cumulativeCases: 204,
+                    newCasesLast7Days: 7
+                },
+                {
+                    name: 'Kusterdingen',
+                    cumulativeCases: 262,
+                    newCasesLast7Days: 4
+                },
+                {
+                    name: 'Mössingen',
+                    cumulativeCases: 782,
+                    newCasesLast7Days: 15
+                },
+                {
+                    name: 'Nehren',
+                    cumulativeCases: 99,
+                    newCasesLast7Days: 2
+                },
+                {
+                    name: 'Neustetten',
+                    cumulativeCases: 154,
+                    newCasesLast7Days: 0
+                },
+                {
+                    name: 'Ofterdingen',
+                    cumulativeCases: 211,
+                    newCasesLast7Days: 7
+                },
+                {
+                    name: 'Rottenburg',
+                    cumulativeCases: 1609,
+                    newCasesLast7Days: 76
+                },
+                {
+                    name: 'Starzach',
+                    cumulativeCases: 177,
+                    newCasesLast7Days: 1
+                },
+                {
+                    name: 'Tübingen',
+                    cumulativeCases: 2522,
+                    newCasesLast7Days: 56
+                },
+            ]
+        },
     ]
 }

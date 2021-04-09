@@ -3,3 +3,5 @@
 # Corona Incidence Tübingen
 
 A small website showing the seven day corona incidence for the district Tübingen and it's cities.
+
+https://corona-inzidenz-tuebingen.de

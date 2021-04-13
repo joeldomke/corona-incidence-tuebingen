@@ -52,7 +52,7 @@
     <line-chart class="chart" :chart-data="chartData" :options="chartOptions"></line-chart>
     <h4>Quellen:</h4>
     <ul>
-      <li>Einwohnerzahlen: <a href="https://www.statistik-bw.de/BevoelkGebiet/Bevoelk_I_D_A_vj.csv">Statistisches
+      <li>Einwohnerzahlen: <a href="https://www.statistik-bw.de/BevoelkGebiet/Bevoelkerung/01515020.tab?R=LA">Statistisches
         Landesamt Baden‑Württemberg</a></li>
       <li>Infektionszahlen Gemeinden: <a href="https://www.kreis-tuebingen.de/17094149.html">Landratsamt Tübingen</a>
       </li>
@@ -442,3 +442,6 @@ a {
   margin-top: 3rem;
 }
 </style>
+
+
+

@@ -7,51 +7,51 @@ export const TimelineCategories = {
 export function getTimelineData () {
     return {
         Ammerbuch: {
-            inhabitants: 11321,
+            inhabitants: 11302,
             category: TimelineCategories.city
         },
         Bodelshausen: {
-            inhabitants: 5776,
+            inhabitants: 5850,
             category: TimelineCategories.city
         },
         Dettenhausen: {
-            inhabitants: 5421,
+            inhabitants: 5390,
             category: TimelineCategories.city
         },
         Dußlingen: {
-            inhabitants: 6287,
+            inhabitants: 6241,
             category: TimelineCategories.city
         },
         Gomaringen: {
-            inhabitants: 9138,
+            inhabitants: 9077,
             category: TimelineCategories.city
         },
         Hirrlingen: {
-            inhabitants: 3157,
+            inhabitants: 3135,
             category: TimelineCategories.city
         },
         Kirchentelllinsfurt: {
-            inhabitants: 5610,
+            inhabitants: 5642,
             category: TimelineCategories.city
         },
         Kusterdingen: {
-            inhabitants: 8737,
+            inhabitants: 8629,
             category: TimelineCategories.city
         },
         Mössingen: {
-            inhabitants: 20496,
+            inhabitants: 20455,
             category: TimelineCategories.city
         },
         Nehren: {
-            inhabitants: 4395,
+            inhabitants: 4376,
             category: TimelineCategories.city
         },
         Neustetten: {
-            inhabitants: 3733,
+            inhabitants: 3715,
             category: TimelineCategories.city
         },
         Ofterdingen: {
-            inhabitants: 5276,
+            inhabitants: 5182,
             category: TimelineCategories.city
         },
         Rottenburg: {
@@ -59,19 +59,19 @@ export function getTimelineData () {
             category: TimelineCategories.city
         },
         Starzach: {
-            inhabitants: 4339,
+            inhabitants: 4335,
             category: TimelineCategories.city
         },
         Tübingen: {
-            inhabitants: 89998,
+            inhabitants: 91506,
             category: TimelineCategories.city
         },
         'Landkreis Tübingen': {
-            inhabitants: 227426,
+            inhabitants: 228678,
             category: TimelineCategories.district
         },
         'Landkreis Reutlingen': {
-            inhabitants: 287445,
+            inhabitants: 287034,
             category: TimelineCategories.district
         }
     };

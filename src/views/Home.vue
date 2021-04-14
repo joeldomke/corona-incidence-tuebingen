@@ -42,7 +42,7 @@
                    @click="changeTimelineSelection(cityName)"
                    class="filterCheckbox"
                    :class="[selectedTimelines.includes(cityName) ? 'selected' : '']">
-                {{ cityName }}
+                {{ getDisplayName(cityName) }}
               </div>
             </div>
           </div>
@@ -331,7 +331,11 @@ export default {
      */
     cityNamesByTimelineCategory(timelineCategory) {
       const allCityNames = Object.keys(this.timelineData);
-      return allCityNames.filter(cityName => this.timelineData[cityName].category === timelineCategory)
+      return allCityNames.filter(cityName => this.timelineData[cityName].category === timelineCategory);
+    },
+    getDisplayName(cityDictName) {
+      const displayName = this.timelineData[cityDictName].displayName;
+      return displayName !== undefined ? displayName : cityDictName;
     },
     round(num, digits = 1) {
       return Math.round(num * Math.pow(10, digits)) / Math.pow(10, digits)

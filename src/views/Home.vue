@@ -417,6 +417,7 @@ export default {
   margin: 0.25rem 0.5rem 0.25rem 0rem;
   width: auto;
   cursor: default;
+  user-select: none;
 }
 
 .filterCheckbox.selected {

@@ -1157,5 +1157,70 @@ export function getCoronaData() {
                 },
             ]
         },
+        {
+            date: '13.04.2021',
+            dataPoints: [
+                {
+                    name: 'Landkreis Tübingen',
+                    cumulativeCases: 7322,
+                    newCasesLast7Days: 297
+                },
+                {
+                    name: 'Landkreis Reutlingen',
+                    cumulativeCases: 10944,
+                    newCasesLast7Days: 419
+                },
+            ]
+        },
+        {
+            date: '14.04.2021',
+            dataPoints: [
+                {
+                    name: 'Landkreis Tübingen',
+                    cumulativeCases: 7387,
+                    newCasesLast7Days: 309
+                },
+                {
+                    name: 'Landkreis Reutlingen',
+                    cumulativeCases: 11027,
+                    newCasesLast7Days: 386
+                },
+            ]
+        },
+        {
+            date: '15.04.2021',
+            dataPoints: [
+                {
+                    name: 'Tübingen',
+                    cumulativeCases: 2522,
+                    newCasesLast7Days: 84
+                },
+                {
+                    name: 'Landkreis Tübingen',
+                    cumulativeCases: 7458,
+                    newCasesLast7Days: 337
+                },
+                {
+                    name: 'Landkreis Reutlingen',
+                    cumulativeCases: 11113,
+                    newCasesLast7Days: 382
+                },
+            ]
+        },
+        {
+            date: '16.04.2021',
+            dataPoints: [
+                {
+                    name: 'Landkreis Tübingen',
+                    cumulativeCases: 7533,
+                    newCasesLast7Days: 344
+                },
+                {
+                    name: 'Landkreis Reutlingen',
+                    cumulativeCases: 11187,
+                    newCasesLast7Days: 397
+                },
+            ]
+        },
     ]
 }

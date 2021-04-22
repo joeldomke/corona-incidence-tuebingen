@@ -1222,5 +1222,80 @@ export function getCoronaData() {
                 },
             ]
         },
+        {
+            date: '17.04.2021',
+            dataPoints: [
+                {
+                    name: 'Landkreis Tübingen',
+                    cumulativeCases: 7606,
+                    newCasesLast7Days: 382
+                },
+                {
+                    name: 'Landkreis Reutlingen',
+                    cumulativeCases: 11247,
+                    newCasesLast7Days: 405
+                },
+            ]
+        },
+        {
+            date: '18.04.2021',
+            dataPoints: [
+                {
+                    name: 'Landkreis Tübingen',
+                    cumulativeCases: 7625,
+                    newCasesLast7Days: 373
+                },
+                {
+                    name: 'Landkreis Reutlingen',
+                    cumulativeCases: 11300,
+                    newCasesLast7Days: 437
+                },
+            ]
+        },
+        {
+            date: '19.04.2021',
+            dataPoints: [
+                {
+                    name: 'Landkreis Tübingen',
+                    cumulativeCases: 7670,
+                    newCasesLast7Days: 393
+                },
+                {
+                    name: 'Landkreis Reutlingen',
+                    cumulativeCases: 11313,
+                    newCasesLast7Days: 405
+                },
+            ]
+        },
+        {
+            date: '20.04.2021',
+            dataPoints: [
+                {
+                    name: 'Landkreis Tübingen',
+                    cumulativeCases: 7751,
+                    newCasesLast7Days: 418
+                },
+                {
+                    name: 'Landkreis Reutlingen',
+                    cumulativeCases: 11435,
+                    newCasesLast7Days: 436
+                },
+            ]
+        },
+        {
+            date: '21.04.2021',
+            dataPoints: [
+                {
+                    name: 'Landkreis Tübingen',
+                    cumulativeCases: 7832,
+                    newCasesLast7Days: 415
+                },
+                {
+                    name: 'Landkreis Reutlingen',
+                    cumulativeCases: 11609,
+                    newCasesLast7Days: 552
+                },
+            ]
+        },
     ]
 }

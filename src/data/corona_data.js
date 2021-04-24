@@ -1297,5 +1297,40 @@ export function getCoronaData() {
                 },
             ]
         },
+        {
+            date: '22.04.2021',
+            dataPoints: [
+                {
+                    name: 'Tübingen',
+                    cumulativeCases: 2606,
+                    newCasesLast7Days: 100
+                },
+                {
+                    name: 'Landkreis Tübingen',
+                    cumulativeCases: 7909,
+                    newCasesLast7Days: 428
+                },
+                {
+                    name: 'Landkreis Reutlingen',
+                    cumulativeCases: 11658,
+                    newCasesLast7Days: 507
+                },
+            ]
+        },
+        {
+            date: '23.04.2021',
+            dataPoints: [
+                {
+                    name: 'Landkreis Tübingen',
+                    cumulativeCases: 8001,
+                    newCasesLast7Days: 456
+                },
+                {
+                    name: 'Landkreis Reutlingen',
+                    cumulativeCases: 11806,
+                    newCasesLast7Days: 589
+                },
+            ]
+        },
     ]
 }

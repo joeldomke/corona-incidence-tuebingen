@@ -4,6 +4,18 @@ export const TimelineCategories = {
     // additionalTimeline: 'Weitere Zeitreihen'
 }
 
+
+/**
+ * @typedef {Object} TimelineData
+ * @property {number} inhabitants
+ * @property {?string} displayName
+ * @property {TimelineCategories} category
+ */
+
+/**
+ *
+ * @returns {TimelineData[]}
+ */
 export function getTimelineData () {
     return {
         // Ammerbuch: {
